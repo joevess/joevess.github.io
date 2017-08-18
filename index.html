@@ -313,6 +313,194 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://joevess.github.io/2017/08/18/链式存储结构之LinkedList源码分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JoeVess">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeVess's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/18/链式存储结构之LinkedList源码分析/" itemprop="url">链式存储结构之LinkedList源码分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T15:29:22+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-08-19T00:33:48+08:00">
+                2017-08-19
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构与算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/18/链式存储结构之LinkedList源码分析/" class="leancloud_visitors" data-flag-title="链式存储结构之LinkedList源码分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="链式存储结构之LinkedList源码分析"><a href="#链式存储结构之LinkedList源码分析" class="headerlink" title="链式存储结构之LinkedList源码分析"></a>链式存储结构之LinkedList源码分析</h3><p>链式存储结构是用<code>一组任意的存储单元</code>存储线性表的数据元素，这组存储单元<code>可以是连续的</code>，<code>也可以是不连续的</code>。</p>
+<ul>
+<li>为了表示每个数据元素a(i)和其直接后继数据元素a(i+1)之间的逻辑关系，对数据元素a(i)来说，除了存储其本身的信息外，还需存储一个指示其直接后继的信息(即直接后继的存储位置)。</li>
+<li>我们把存储数据元素信息的域称为数据域，把存储直接后继位的域称为指针域。</li>
+<li>指针域中存储的信息称做指针或链。这两部分信息组成数据元素a(i)的存储映像，称为结点。</li>
+<li>链表中第一个结点的存储位置叫做头指针。</li>
+<li>链表的最后一个结点指针为”空”(通常用NULL或<code>^</code>符号表示)</li>
+</ul>
+<h4 id="1-链式存储结构的优缺点"><a href="#1-链式存储结构的优缺点" class="headerlink" title="1. 链式存储结构的优缺点"></a>1. 链式存储结构的优缺点</h4><pre><code>优：删除和插入效率高
+缺：查询效率低
+</code></pre><h4 id="2-链表的分类"><a href="#2-链表的分类" class="headerlink" title="2. 链表的分类"></a>2. 链表的分类</h4><ul>
+<li>单链表<blockquote>
+<p>n个结点链成一个链表，此链表的每个结点中只包含一个指针域</p>
+</blockquote>
+</li>
+</ul>
+<pre><code>静态链表：静态链表其实是为了给没有指针的高级语言设计的一种实现单链表能力的方法。
+</code></pre><ul>
+<li>循环链表<blockquote>
+<p>将单链表中终端结点的指针端由空指针改为指向头结点，就使整个单链表形成了一个环，这种首尾相接单单链表称为单循环链表，简称循环链表</p>
+</blockquote>
+</li>
+<li>双向循环链表<blockquote>
+<p>双向链表是在单向循环链表的每个结点中，再设置一个指向其前驱结点的指针域。</p>
+</blockquote>
+</li>
+</ul>
+<p>在Java中，我们常见具有代表性的链式存储结构有很多，这里我们以LinkedList为例，进行分析，看看它内部是如何实现链式存储结构的。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/18/链式存储结构之LinkedList源码分析/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://joevess.github.io/2017/08/18/顺序存储结构之ArrayList源码分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -844,7 +1032,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -866,7 +1054,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

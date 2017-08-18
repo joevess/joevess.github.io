@@ -1,28 +1,438 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title>JoeVess&#39;s Blog</title>
+<!doctype html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
-  <link href="/atom.xml" rel="self"/>
   
-  <link href="http://joevess.github.io/"/>
-  <updated>2017-08-18T16:33:48.000Z</updated>
-  <id>http://joevess.github.io/</id>
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
   
-  <author>
-    <name>JoeVess</name>
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
     
-  </author>
-  
-  <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>链式存储结构之LinkedList源码分析</title>
-    <link href="http://joevess.github.io/2017/08/18/%E9%93%BE%E5%BC%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E4%B9%8BLinkedList%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
-    <id>http://joevess.github.io/2017/08/18/链式存储结构之LinkedList源码分析/</id>
-    <published>2017-08-18T07:29:22.000Z</published>
-    <updated>2017-08-18T16:33:48.000Z</updated>
+
     
-    <content type="html"><![CDATA[<h3 id="链式存储结构之LinkedList源码分析"><a href="#链式存储结构之LinkedList源码分析" class="headerlink" title="链式存储结构之LinkedList源码分析"></a>链式存储结构之LinkedList源码分析</h3><p>链式存储结构是用<code>一组任意的存储单元</code>存储线性表的数据元素，这组存储单元<code>可以是连续的</code>，<code>也可以是不连续的</code>。</p>
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn/css?family=Lobster Two:300,300italic,400,400italic,700,700italicPT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构,LinkedList," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="JoeVess's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="链式存储结构之LinkedList源码分析链式存储结构是用一组任意的存储单元存储线性表的数据元素，这组存储单元可以是连续的，也可以是不连续的。  为了表示每个数据元素a(i)和其直接后继数据元素a(i+1)之间的逻辑关系，对数据元素a(i)来说，除了存储其本身的信息外，还需存储一个指示其直接后继的信息(即直接后继的存储位置)。 我们把存储数据元素信息的域称为数据域，把存储直接后继位的域称为指针域。">
+<meta name="keywords" content="数据结构,LinkedList">
+<meta property="og:type" content="article">
+<meta property="og:title" content="链式存储结构之LinkedList源码分析">
+<meta property="og:url" content="http://joevess.github.io/2017/08/18/链式存储结构之LinkedList源码分析/index.html">
+<meta property="og:site_name" content="JoeVess&#39;s Blog">
+<meta property="og:description" content="链式存储结构之LinkedList源码分析链式存储结构是用一组任意的存储单元存储线性表的数据元素，这组存储单元可以是连续的，也可以是不连续的。  为了表示每个数据元素a(i)和其直接后继数据元素a(i+1)之间的逻辑关系，对数据元素a(i)来说，除了存储其本身的信息外，还需存储一个指示其直接后继的信息(即直接后继的存储位置)。 我们把存储数据元素信息的域称为数据域，把存储直接后继位的域称为指针域。">
+<meta property="og:updated_time" content="2017-08-18T16:33:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="链式存储结构之LinkedList源码分析">
+<meta name="twitter:description" content="链式存储结构之LinkedList源码分析链式存储结构是用一组任意的存储单元存储线性表的数据元素，这组存储单元可以是连续的，也可以是不连续的。  为了表示每个数据元素a(i)和其直接后继数据元素a(i+1)之间的逻辑关系，对数据元素a(i)来说，除了存储其本身的信息外，还需存储一个指示其直接后继的信息(即直接后继的存储位置)。 我们把存储数据元素信息的域称为数据域，把存储直接后继位的域称为指针域。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":true},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://joevess.github.io/2017/08/18/链式存储结构之LinkedList源码分析/"/>
+
+
+
+
+
+  <title>链式存储结构之LinkedList源码分析 | JoeVess's Blog</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JoeVess's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://joevess.github.io/2017/08/18/链式存储结构之LinkedList源码分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JoeVess">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeVess's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">链式存储结构之LinkedList源码分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T15:29:22+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-08-19T00:33:48+08:00">
+                2017-08-19
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构与算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/08/18/链式存储结构之LinkedList源码分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/08/18/链式存储结构之LinkedList源码分析/" class="leancloud_visitors" data-flag-title="链式存储结构之LinkedList源码分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="链式存储结构之LinkedList源码分析"><a href="#链式存储结构之LinkedList源码分析" class="headerlink" title="链式存储结构之LinkedList源码分析"></a>链式存储结构之LinkedList源码分析</h3><p>链式存储结构是用<code>一组任意的存储单元</code>存储线性表的数据元素，这组存储单元<code>可以是连续的</code>，<code>也可以是不连续的</code>。</p>
 <ul>
 <li>为了表示每个数据元素a(i)和其直接后继数据元素a(i+1)之间的逻辑关系，对数据元素a(i)来说，除了存储其本身的信息外，还需存储一个指示其直接后继的信息(即直接后继的存储位置)。</li>
 <li>我们把存储数据元素信息的域称为数据域，把存储直接后继位的域称为指针域。</li>
@@ -60,171 +470,836 @@
 <li>ListIterator可以定位当前的索引位置，nextIndex()和previousIndex()可以实现。Iterator没有此功能。</li>
 <li>都可实现删除对象，但是ListIterator可以实现对象的修改，set()方法可以实现。Iierator仅能遍历，不能修改。<br>因为ListIterator的这些功能，可以实现对LinkedList等List数据结构的操作。其实，数组对象也可以用迭代器来实现。 </li>
 </ul>
-]]></content>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/LinkedList/" rel="tag"># LinkedList</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/18/顺序存储结构之ArrayList源码分析/" rel="next" title="顺序存储结构之ArrayList源码分析">
+                <i class="fa fa-chevron-left"></i> 顺序存储结构之ArrayList源码分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
     
-    <summary type="html">
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
     
-      &lt;h3 id=&quot;链式存储结构之LinkedList源码分析&quot;&gt;&lt;a href=&quot;#链式存储结构之LinkedList源码分析&quot; class=&quot;headerlink&quot; title=&quot;链式存储结构之LinkedList源码分析&quot;&gt;&lt;/a&gt;链式存储结构之LinkedList源码分析&lt;/h3&gt;&lt;p&gt;链式存储结构是用&lt;code&gt;一组任意的存储单元&lt;/code&gt;存储线性表的数据元素，这组存储单元&lt;code&gt;可以是连续的&lt;/code&gt;，&lt;code&gt;也可以是不连续的&lt;/code&gt;。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;为了表示每个数据元素a(i)和其直接后继数据元素a(i+1)之间的逻辑关系，对数据元素a(i)来说，除了存储其本身的信息外，还需存储一个指示其直接后继的信息(即直接后继的存储位置)。&lt;/li&gt;
-&lt;li&gt;我们把存储数据元素信息的域称为数据域，把存储直接后继位的域称为指针域。&lt;/li&gt;
-&lt;li&gt;指针域中存储的信息称做指针或链。这两部分信息组成数据元素a(i)的存储映像，称为结点。&lt;/li&gt;
-&lt;li&gt;链表中第一个结点的存储位置叫做头指针。&lt;/li&gt;
-&lt;li&gt;链表的最后一个结点指针为”空”(通常用NULL或&lt;code&gt;^&lt;/code&gt;符号表示)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;1-链式存储结构的优缺点&quot;&gt;&lt;a href=&quot;#1-链式存储结构的优缺点&quot; class=&quot;headerlink&quot; title=&quot;1. 链式存储结构的优缺点&quot;&gt;&lt;/a&gt;1. 链式存储结构的优缺点&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;优：删除和插入效率高
-缺：查询效率低
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&quot;2-链表的分类&quot;&gt;&lt;a href=&quot;#2-链表的分类&quot; class=&quot;headerlink&quot; title=&quot;2. 链表的分类&quot;&gt;&lt;/a&gt;2. 链表的分类&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;单链表&lt;blockquote&gt;
-&lt;p&gt;n个结点链成一个链表，此链表的每个结点中只包含一个指针域&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;静态链表：静态链表其实是为了给没有指针的高级语言设计的一种实现单链表能力的方法。
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;循环链表&lt;blockquote&gt;
-&lt;p&gt;将单链表中终端结点的指针端由空指针改为指向头结点，就使整个单链表形成了一个环，这种首尾相接单单链表称为单循环链表，简称循环链表&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;双向循环链表&lt;blockquote&gt;
-&lt;p&gt;双向链表是在单向循环链表的每个结点中，再设置一个指向其前驱结点的指针域。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;在Java中，我们常见具有代表性的链式存储结构有很多，这里我们以LinkedList为例，进行分析，看看它内部是如何实现链式存储结构的。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="数据结构与算法" scheme="http://joevess.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"/>
-    
-    
-      <category term="数据结构" scheme="http://joevess.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-      <category term="LinkedList" scheme="http://joevess.github.io/tags/LinkedList/"/>
-    
-  </entry>
+  </div>
+
+
+        </div>
+        
+          
   
-  <entry>
-    <title>顺序存储结构之ArrayList源码分析</title>
-    <link href="http://joevess.github.io/2017/08/18/%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E4%B9%8BArrayList%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
-    <id>http://joevess.github.io/2017/08/18/顺序存储结构之ArrayList源码分析/</id>
-    <published>2017-08-18T06:20:41.000Z</published>
-    <updated>2017-08-18T06:55:49.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="顺序存储结构之ArrayList源码分析"><a href="#顺序存储结构之ArrayList源码分析" class="headerlink" title="顺序存储结构之ArrayList源码分析"></a>顺序存储结构之ArrayList源码分析</h3><ul>
-<li>顺序存储结构的优缺点</li>
-</ul>
-<blockquote>
-<p>优点：查询很快<br>缺点：插入和删除效率慢</p>
-</blockquote>
-<p>在Java中，我们常见具有代表性的顺序存储结构有很多，这里我们以ArrayList为例，进行分析，看看它内部是如何实现顺序存储结构的。<br><a id="more"></a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div><div class="line">411</div><div class="line">412</div><div class="line">413</div><div class="line">414</div><div class="line">415</div><div class="line">416</div><div class="line">417</div><div class="line">418</div><div class="line">419</div><div class="line">420</div><div class="line">421</div><div class="line">422</div><div class="line">423</div><div class="line">424</div><div class="line">425</div><div class="line">426</div><div class="line">427</div><div class="line">428</div><div class="line">429</div><div class="line">430</div><div class="line">431</div><div class="line">432</div><div class="line">433</div><div class="line">434</div><div class="line">435</div><div class="line">436</div><div class="line">437</div><div class="line">438</div><div class="line">439</div><div class="line">440</div><div class="line">441</div><div class="line">442</div><div class="line">443</div><div class="line">444</div><div class="line">445</div><div class="line">446</div><div class="line">447</div><div class="line">448</div><div class="line">449</div><div class="line">450</div><div class="line">451</div><div class="line">452</div><div class="line">453</div><div class="line">454</div><div class="line">455</div><div class="line">456</div><div class="line">457</div><div class="line">458</div><div class="line">459</div><div class="line">460</div><div class="line">461</div><div class="line">462</div><div class="line">463</div><div class="line">464</div><div class="line">465</div><div class="line">466</div><div class="line">467</div><div class="line">468</div><div class="line">469</div><div class="line">470</div><div class="line">471</div><div class="line">472</div><div class="line">473</div><div class="line">474</div><div class="line">475</div><div class="line">476</div><div class="line">477</div><div class="line">478</div><div class="line">479</div><div class="line">480</div><div class="line">481</div><div class="line">482</div><div class="line">483</div><div class="line">484</div><div class="line">485</div><div class="line">486</div><div class="line">487</div><div class="line">488</div><div class="line">489</div><div class="line">490</div><div class="line">491</div><div class="line">492</div><div class="line">493</div><div class="line">494</div><div class="line">495</div><div class="line">496</div><div class="line">497</div><div class="line">498</div><div class="line">499</div><div class="line">500</div><div class="line">501</div><div class="line">502</div><div class="line">503</div><div class="line">504</div><div class="line">505</div><div class="line">506</div><div class="line">507</div><div class="line">508</div><div class="line">509</div><div class="line">510</div><div class="line">511</div><div class="line">512</div><div class="line">513</div><div class="line">514</div><div class="line">515</div><div class="line">516</div><div class="line">517</div><div class="line">518</div><div class="line">519</div><div class="line">520</div><div class="line">521</div><div class="line">522</div><div class="line">523</div><div class="line">524</div><div class="line">525</div><div class="line">526</div><div class="line">527</div><div class="line">528</div><div class="line">529</div><div class="line">530</div><div class="line">531</div><div class="line">532</div><div class="line">533</div><div class="line">534</div><div class="line">535</div><div class="line">536</div><div class="line">537</div><div class="line">538</div><div class="line">539</div><div class="line">540</div><div class="line">541</div><div class="line">542</div><div class="line">543</div><div class="line">544</div><div class="line">545</div><div class="line">546</div><div class="line">547</div><div class="line">548</div><div class="line">549</div><div class="line">550</div><div class="line">551</div><div class="line">552</div><div class="line">553</div><div class="line">554</div><div class="line">555</div><div class="line">556</div><div class="line">557</div><div class="line">558</div><div class="line">559</div><div class="line">560</div><div class="line">561</div><div class="line">562</div><div class="line">563</div><div class="line">564</div><div class="line">565</div><div class="line">566</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">Cloneable</span>, <span class="title">Serializable</span>, <span class="title">RandomAccess</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//最小容量值 ，默认为12，java中默认为10</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MIN_CAPACITY_INCREMENT = <span class="number">12</span>;</div><div class="line"></div><div class="line">    <span class="comment">//当前列表中的元素个数</span></div><div class="line">    <span class="keyword">int</span> size;</div><div class="line"></div><div class="line">    <span class="comment">//ArrayList是基于数组的方式实现的，此为初始化创建的Object数组，transient是用来反序列化的</span></div><div class="line">    <span class="keyword">transient</span> Object[] array;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建一个指定带容量大小的ArrayList</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (capacity &lt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"capacity &lt; 0: "</span> + capacity);</div><div class="line">        &#125;</div><div class="line">        array = (capacity == <span class="number">0</span> ? EmptyArray.OBJECT : <span class="keyword">new</span> Object[capacity]);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建一个无参构造的ArrayList</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">()</span> </span>&#123;</div><div class="line">        array = EmptyArray.OBJECT;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建一个包含collection的ArrayList</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(Collection&lt;? extends E&gt; collection)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (collection == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"collection == null"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//将集合转成Object[]</span></div><div class="line">        Object[] a = collection.toArray();</div><div class="line">        <span class="comment">//判断数组的类型</span></div><div class="line">        <span class="keyword">if</span> (a.getClass() != Object[].class) &#123;</div><div class="line">            <span class="comment">//如果原数组不是Object类型的数组,定义一个新的、同样长度的Object[]</span></div><div class="line">            Object[] newArray = <span class="keyword">new</span> Object[a.length];</div><div class="line">            <span class="comment">//将原数组a的内容从位置0开始拷贝到新的数组newArray位置0,拷贝长度为原数组长度a,即将原数组所以内容拷贝到新数组</span></div><div class="line">            System.arraycopy(a, <span class="number">0</span>, newArray, <span class="number">0</span>, a.length);</div><div class="line">            <span class="comment">//将新数组赋值给原数组a</span></div><div class="line">            a = newArray;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//记录下数组、元素个数</span></div><div class="line">        array = a;</div><div class="line">        size = a.length;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加方法，添加到列表的尾部</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E object)</span> </span>&#123;</div><div class="line">        Object[] a = array;<span class="comment">//将array赋值给一个局部Object数组</span></div><div class="line">        <span class="keyword">int</span> s = size;<span class="comment">// 用局部的s获取长度</span></div><div class="line">        <span class="keyword">if</span> (s == a.length) &#123;<span class="comment">// 如果现在的长度等于数组array的长度，那么空间满了，需要声明一个新数组</span></div><div class="line">            Object[] newArray = <span class="keyword">new</span> Object[s +</div><div class="line">                    (s &lt; (MIN_CAPACITY_INCREMENT / <span class="number">2</span>) ?</div><div class="line">                            MIN_CAPACITY_INCREMENT : s &gt;&gt; <span class="number">1</span>)];<span class="comment">// s&lt;6?12:6</span></div><div class="line">            System.arraycopy(a, <span class="number">0</span>, newArray, <span class="number">0</span>, s);<span class="comment">// 把原来的数组拷贝到新的数组中来</span></div><div class="line">            array = a = newArray;<span class="comment">//赋值并记录</span></div><div class="line">        &#125;</div><div class="line">        a[s] = object;<span class="comment">//s位置赋值</span></div><div class="line">        size = s + <span class="number">1</span>;<span class="comment">// 长度+1</span></div><div class="line">        modCount++;<span class="comment">// 计量器，只要数组中元素动一下，它就+1</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加方法，添加到指定位置</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E object)</span> </span>&#123;</div><div class="line">        Object[] a = array;<span class="comment">//将array赋值给一个局部Object数组</span></div><div class="line">        <span class="keyword">int</span> s = size;<span class="comment">// 用局部的s获取长度</span></div><div class="line">        <span class="keyword">if</span> (index &gt; s || index &lt; <span class="number">0</span>) &#123;</div><div class="line">            throwIndexOutOfBoundsException(index, s);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (s &lt; a.length) &#123;<span class="comment">// 当数组长度容量足够时，执行System.arraycopy方法实现数组的复制(index~lastIndex  ====&gt;&gt;(拷贝)  (index+1)~(lastIndex+1))</span></div><div class="line">            System.arraycopy(a, index, a, index + <span class="number">1</span>, s - index);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;<span class="comment">// 当数组容量不足时，进行扩容</span></div><div class="line">            <span class="comment">// assert s == a.length;</span></div><div class="line">            <span class="comment">// 创建新数组，newCapacity为新数组长度，扩容方式和上面的add方法相同</span></div><div class="line">            Object[] newArray = <span class="keyword">new</span> Object[newCapacity(s)];</div><div class="line">            <span class="comment">//将数据拷贝到新数组中</span></div><div class="line">            System.arraycopy(a, <span class="number">0</span>, newArray, <span class="number">0</span>, index);</div><div class="line">            <span class="comment">//(index~lastIndex  ====&gt;&gt;(拷贝)  (index+1)~(lastIndex+1))</span></div><div class="line">            System.arraycopy(a, index, newArray, index + <span class="number">1</span>, s - index);</div><div class="line">            array = a = newArray;</div><div class="line">        &#125;</div><div class="line">        a[index] = object;<span class="comment">//index位置赋值</span></div><div class="line">        size = s + <span class="number">1</span>;<span class="comment">// 长度+1</span></div><div class="line">        modCount++;<span class="comment">// 计量器，只要数组中元素动一下，它就+1</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 扩容大小计算</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">newCapacity</span><span class="params">(<span class="keyword">int</span> currentCapacity)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> increment = (currentCapacity &lt; (MIN_CAPACITY_INCREMENT / <span class="number">2</span>) ?</div><div class="line">                MIN_CAPACITY_INCREMENT : currentCapacity &gt;&gt; <span class="number">1</span>);</div><div class="line">        <span class="keyword">return</span> currentCapacity + increment;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加方法，将容器中所有元素添加到此列表的尾部</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; collection)</span> </span>&#123;</div><div class="line">        Object[] newPart = collection.toArray();<span class="comment">//将要插入的集合转成数组并赋值给一个局部Object数组</span></div><div class="line">        <span class="keyword">int</span> newPartSize = newPart.length;<span class="comment">//局部newPartSize记录插入数组的长度</span></div><div class="line">        <span class="keyword">if</span> (newPartSize == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        Object[] a = array;<span class="comment">//将array赋值给一个局部Object数组</span></div><div class="line">        <span class="keyword">int</span> s = size;<span class="comment">// 用局部的s获取长度</span></div><div class="line">        <span class="keyword">int</span> newSize = s + newPartSize; <span class="comment">//计算添加后，数组的长度</span></div><div class="line">        <span class="keyword">if</span> (newSize &gt; a.length) &#123;<span class="comment">//如果当前数组的长度不够，则需要进行扩容</span></div><div class="line">            <span class="comment">//创建一个新的扩容数组</span></div><div class="line">            <span class="keyword">int</span> newCapacity = newCapacity(newSize - <span class="number">1</span>);  <span class="comment">// ~33% growth room</span></div><div class="line">            Object[] newArray = <span class="keyword">new</span> Object[newCapacity];</div><div class="line">            <span class="comment">//将数组拷贝到新的数组</span></div><div class="line">            System.arraycopy(a, <span class="number">0</span>, newArray, <span class="number">0</span>, s);</div><div class="line">            <span class="comment">//将新数组赋值给原数组</span></div><div class="line">            array = a = newArray;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//将要插入的数组newPart,插入到原数组a的尾部。</span></div><div class="line">        System.arraycopy(newPart, <span class="number">0</span>, a, s, newPartSize);</div><div class="line">        size = newSize;<span class="comment">//赋值当前数组的长度</span></div><div class="line">        modCount++;<span class="comment">// 计量器，只要数组中元素动一下，它就+1</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加方法，将容器中所有元素添加到此列表的指定位置</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(<span class="keyword">int</span> index, Collection&lt;? extends E&gt; collection)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> s = size;</div><div class="line">        <span class="keyword">if</span> (index &gt; s || index &lt; <span class="number">0</span>) &#123;</div><div class="line">            throwIndexOutOfBoundsException(index, s);</div><div class="line">        &#125;</div><div class="line">        Object[] newPart = collection.toArray();</div><div class="line">        <span class="keyword">int</span> newPartSize = newPart.length;</div><div class="line">        <span class="keyword">if</span> (newPartSize == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        Object[] a = array;</div><div class="line">        <span class="keyword">int</span> newSize = s + newPartSize; <span class="comment">// If add overflows, arraycopy will fail</span></div><div class="line">        <span class="keyword">if</span> (newSize &lt;= a.length) &#123;</div><div class="line">            System.arraycopy(a, index, a, index + newPartSize, s - index);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">int</span> newCapacity = newCapacity(newSize - <span class="number">1</span>);  <span class="comment">// ~33% growth room</span></div><div class="line">            Object[] newArray = <span class="keyword">new</span> Object[newCapacity];</div><div class="line">            System.arraycopy(a, <span class="number">0</span>, newArray, <span class="number">0</span>, index);</div><div class="line">            System.arraycopy(a, index, newArray, index + newPartSize, s-index);</div><div class="line">            array = a = newArray;</div><div class="line">        &#125;</div><div class="line">        System.arraycopy(newPart, <span class="number">0</span>, a, index, newPartSize);</div><div class="line">        size = newSize;</div><div class="line">        modCount++;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * This method was extracted to encourage VM to inline callers.</div><div class="line">     * <span class="doctag">TODO:</span> when we have a VM that can actually inline, move the test in here too!</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">static</span> IndexOutOfBoundsException <span class="title">throwIndexOutOfBoundsException</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> size)</span> </span>&#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException(<span class="string">"Invalid index "</span> + index + <span class="string">", size is "</span> + size);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 清空ArrayList集合中所有元素，使用Arrays.fill方法，将其填充为null</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (size != <span class="number">0</span>) &#123;</div><div class="line">            Arrays.fill(array, <span class="number">0</span>, size, <span class="keyword">null</span>);</div><div class="line">            size = <span class="number">0</span>;</div><div class="line">            modCount++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 克隆方法，由于ArrayList实现了Cloneable接口，所以能被克隆</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            ArrayList&lt;?&gt; result = (ArrayList&lt;?&gt;) <span class="keyword">super</span>.clone();</div><div class="line">            result.array = array.clone();</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AssertionError();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Ensures that after this operation the &#123;<span class="doctag">@code</span> ArrayList&#125; can hold the</div><div class="line">     * specified number of elements without further growing.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> minimumCapacity</div><div class="line">     *            the minimum capacity asked for.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> minimumCapacity)</span> </span>&#123;</div><div class="line">        Object[] a = array;</div><div class="line">        <span class="keyword">if</span> (a.length &lt; minimumCapacity) &#123;</div><div class="line">            Object[] newArray = <span class="keyword">new</span> Object[minimumCapacity];</div><div class="line">            System.arraycopy(a, <span class="number">0</span>, newArray, <span class="number">0</span>, size);</div><div class="line">            array = newArray;</div><div class="line">            modCount++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>) <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (index &gt;= size) &#123;</div><div class="line">            throwIndexOutOfBoundsException(index, size);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (E) array[index];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Returns the number of elements in this &#123;<span class="doctag">@code</span> ArrayList&#125;.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> the number of elements in this &#123;<span class="doctag">@code</span> ArrayList&#125;.</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> size;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 判断是否为空</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> size == <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 查找是否包含某个元素</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object object)</span> </span>&#123;</div><div class="line">        Object[] a = array;</div><div class="line">        <span class="keyword">int</span> s = size;</div><div class="line">        <span class="keyword">if</span> (object != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s; i++) &#123;</div><div class="line">                <span class="keyword">if</span> (object.equals(a[i])) &#123;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s; i++) &#123;</div><div class="line">                <span class="keyword">if</span> (a[i] == <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 从前向后查找元素所在的索引（如果查找的元素为null,则查找第一个为null的元素位置）。找不到返回－1</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object object)</span> </span>&#123;</div><div class="line">        Object[] a = array;</div><div class="line">        <span class="keyword">int</span> s = size;</div><div class="line">        <span class="keyword">if</span> (object != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s; i++) &#123;</div><div class="line">                <span class="keyword">if</span> (object.equals(a[i])) &#123;</div><div class="line">                    <span class="keyword">return</span> i;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s; i++) &#123;</div><div class="line">                <span class="keyword">if</span> (a[i] == <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">return</span> i;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 从后向前查找元素所在的索引。（如果查找的元素为null,则查找第一个为null的元素位置）。找不到返回－1</div><div class="line">     * <span class="doctag">@param</span> object</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lastIndexOf</span><span class="params">(Object object)</span> </span>&#123;</div><div class="line">        Object[] a = array;</div><div class="line">        <span class="keyword">if</span> (object != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = size - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">                <span class="keyword">if</span> (object.equals(a[i])) &#123;</div><div class="line">                    <span class="keyword">return</span> i;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = size - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">                <span class="keyword">if</span> (a[i] == <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">return</span> i;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 删除列表中指定位置上的元素</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        Object[] a = array;</div><div class="line">        <span class="keyword">int</span> s = size;</div><div class="line">        <span class="keyword">if</span> (index &gt;= s) &#123;</div><div class="line">            throwIndexOutOfBoundsException(index, s);</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>) E result = (E) a[index];</div><div class="line">        <span class="comment">// 将删除位置之后的元素拷贝并向前并挪动一个位置</span></div><div class="line">        System.arraycopy(a, index + <span class="number">1</span>, a, index, --s - index);</div><div class="line">        <span class="comment">// 将数组末尾置空</span></div><div class="line">        a[s] = <span class="keyword">null</span>;  <span class="comment">// Prevent memory leak</span></div><div class="line">        size = s;</div><div class="line">        modCount++;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 删除列表中首次出现的指定元素</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object object)</span> </span>&#123;</div><div class="line">        Object[] a = array;</div><div class="line">        <span class="keyword">int</span> s = size;</div><div class="line">        <span class="keyword">if</span> (object != <span class="keyword">null</span>) &#123;<span class="comment">//如果指定查找的元素不为null</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s; i++) &#123;<span class="comment">//遍历查找</span></div><div class="line">                <span class="keyword">if</span> (object.equals(a[i])) &#123;<span class="comment">//如果找到</span></div><div class="line">                    <span class="comment">//将将该元素位置之后的元素拷贝并向前并挪动一个位置</span></div><div class="line">                    System.arraycopy(a, i + <span class="number">1</span>, a, i, --s - i);</div><div class="line">                    a[s] = <span class="keyword">null</span>;  <span class="comment">// 将数组末尾置空</span></div><div class="line">                    size = s;</div><div class="line">                    modCount++;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;<span class="comment">//如果指定查找的元素为null</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s; i++) &#123;<span class="comment">//遍历查找</span></div><div class="line">                <span class="keyword">if</span> (a[i] == <span class="keyword">null</span>) &#123;<span class="comment">//如果第一个为null的元素</span></div><div class="line">                    <span class="comment">//将该为空的元素位置之后的元素，拷贝并向前并挪动一个位置</span></div><div class="line">                    System.arraycopy(a, i + <span class="number">1</span>, a, i, --s - i);</div><div class="line">                    a[s] = <span class="keyword">null</span>;<span class="comment">// 将数组末尾置空</span></div><div class="line">                    size = s;</div><div class="line">                    modCount++;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 移除指定范围的元素</div><div class="line">     * <span class="doctag">@param</span> fromIndex</div><div class="line">     * <span class="doctag">@param</span> toIndex</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">removeRange</span><span class="params">(<span class="keyword">int</span> fromIndex, <span class="keyword">int</span> toIndex)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (fromIndex == toIndex) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        Object[] a = array;</div><div class="line">        <span class="keyword">int</span> s = size;</div><div class="line">        <span class="keyword">if</span> (fromIndex &gt;= s) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException(<span class="string">"fromIndex "</span> + fromIndex</div><div class="line">                    + <span class="string">" &gt;= size "</span> + size);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (toIndex &gt; s) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException(<span class="string">"toIndex "</span> + toIndex</div><div class="line">                    + <span class="string">" &gt; size "</span> + size);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (fromIndex &gt; toIndex) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException(<span class="string">"fromIndex "</span> + fromIndex</div><div class="line">                    + <span class="string">" &gt; toIndex "</span> + toIndex);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        System.arraycopy(a, toIndex, a, fromIndex, s - toIndex);</div><div class="line">        <span class="keyword">int</span> rangeSize = toIndex - fromIndex;</div><div class="line">        Arrays.fill(a, s - rangeSize, s, <span class="keyword">null</span>);</div><div class="line">        size = s - rangeSize;</div><div class="line">        modCount++;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 修改方法</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> E <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, E object)</span> </span>&#123;</div><div class="line">        Object[] a = array;</div><div class="line">        <span class="keyword">if</span> (index &gt;= size) &#123;</div><div class="line">            throwIndexOutOfBoundsException(index, size);</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>) E result = (E) a[index];</div><div class="line">        a[index] = object;<span class="comment">//修改index位置的数组元素</span></div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建一个新的Object数组，把array中的元素拷贝到数组中，然后返回</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="keyword">public</span> Object[] toArray() &#123;</div><div class="line">        <span class="keyword">int</span> s = size;</div><div class="line">        Object[] result = <span class="keyword">new</span> Object[s];</div><div class="line">        System.arraycopy(array, <span class="number">0</span>, result, <span class="number">0</span>, s);</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 把array中的元素拷贝到传入的数组中，然后返回</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span> <span class="keyword">public</span> &lt;T&gt; T[] toArray(T[] contents) &#123;</div><div class="line">        <span class="keyword">int</span> s = size;</div><div class="line">        <span class="keyword">if</span> (contents.length &lt; s) &#123;</div><div class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>) T[] newArray</div><div class="line">                    = (T[]) Array.newInstance(contents.getClass().getComponentType(), s);</div><div class="line">            contents = newArray;</div><div class="line">        &#125;</div><div class="line">        System.arraycopy(<span class="keyword">this</span>.array, <span class="number">0</span>, contents, <span class="number">0</span>, s);</div><div class="line">        <span class="keyword">if</span> (contents.length &gt; s) &#123;</div><div class="line">            contents[s] = <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> contents;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Sets the capacity of this &#123;<span class="doctag">@code</span> ArrayList&#125; to be the same as the current</div><div class="line">     * size.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@see</span> #size</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">trimToSize</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> s = size;</div><div class="line">        <span class="keyword">if</span> (s == array.length) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (s == <span class="number">0</span>) &#123;</div><div class="line">            array = EmptyArray.OBJECT;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            Object[] newArray = <span class="keyword">new</span> Object[s];</div><div class="line">            System.arraycopy(array, <span class="number">0</span>, newArray, <span class="number">0</span>, s);</div><div class="line">            array = newArray;</div><div class="line">        &#125;</div><div class="line">        modCount++;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ArrayListIterator();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 每个List都会有一个迭代器，里面包含hasNext方法，remove方法，next方法</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">        <span class="comment">/** Number of elements remaining in this iteration */</span></div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> remaining = size;<span class="comment">// 剩余的数量</span></div><div class="line"></div><div class="line">        <span class="comment">/** Index of element that remove() would remove, or -1 if no such elt */</span></div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> removalIndex = -<span class="number">1</span>;</div><div class="line"></div><div class="line">        <span class="comment">/** The expected modCount value */</span></div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> expectedModCount = modCount;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;<span class="comment">// 下面是否还有元素</span></div><div class="line">            <span class="keyword">return</span> remaining != <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>) <span class="function"><span class="keyword">public</span> E <span class="title">next</span><span class="params">()</span> </span>&#123;</div><div class="line">            ArrayList&lt;E&gt; ourList = ArrayList.<span class="keyword">this</span>;</div><div class="line">            <span class="keyword">int</span> rem = remaining;</div><div class="line">            <span class="keyword">if</span> (ourList.modCount != expectedModCount) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (rem == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</div><div class="line">            &#125;</div><div class="line">            remaining = rem - <span class="number">1</span>;<span class="comment">//剩余数量减一</span></div><div class="line">            <span class="keyword">return</span> (E) ourList.array[removalIndex = ourList.size - rem];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;<span class="comment">// 用迭代器进行删除，实际上创建一个新数组，删除然后进行copy</span></div><div class="line">            Object[] a = array;</div><div class="line">            <span class="keyword">int</span> removalIdx = removalIndex;</div><div class="line">            <span class="keyword">if</span> (modCount != expectedModCount) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (removalIdx &lt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">            &#125;</div><div class="line">            System.arraycopy(a, removalIdx + <span class="number">1</span>, a, removalIdx, remaining);</div><div class="line">            a[--size] = <span class="keyword">null</span>;  <span class="comment">// Prevent memory leak</span></div><div class="line">            removalIndex = -<span class="number">1</span>;</div><div class="line">            expectedModCount = ++modCount;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</div><div class="line">        Object[] a = array;</div><div class="line">        <span class="keyword">int</span> hashCode = <span class="number">1</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, s = size; i &lt; s; i++) &#123;</div><div class="line">            Object e = a[i];</div><div class="line">            hashCode = <span class="number">31</span> * hashCode + (e == <span class="keyword">null</span> ? <span class="number">0</span> : e.hashCode());</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> hashCode;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (o == <span class="keyword">this</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (!(o <span class="keyword">instanceof</span> List)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        List&lt;?&gt; that = (List&lt;?&gt;) o;</div><div class="line">        <span class="keyword">int</span> s = size;</div><div class="line">        <span class="keyword">if</span> (that.size() != s) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        Object[] a = array;</div><div class="line">        <span class="keyword">if</span> (that <span class="keyword">instanceof</span> RandomAccess) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s; i++) &#123;</div><div class="line">                Object eThis = a[i];</div><div class="line">                Object ethat = that.get(i);</div><div class="line">                <span class="keyword">if</span> (eThis == <span class="keyword">null</span> ? ethat != <span class="keyword">null</span> : !eThis.equals(ethat)) &#123;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;  <span class="comment">// Argument list is not random access; use its iterator</span></div><div class="line">            Iterator&lt;?&gt; it = that.iterator();</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s; i++) &#123;</div><div class="line">                Object eThis = a[i];</div><div class="line">                Object eThat = it.next();</div><div class="line">                <span class="keyword">if</span> (eThis == <span class="keyword">null</span> ? eThat != <span class="keyword">null</span> : !eThis.equals(eThat)) &#123;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">8683452581122892189L</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeObject</span><span class="params">(ObjectOutputStream stream)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        stream.defaultWriteObject();</div><div class="line">        stream.writeInt(array.length);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</div><div class="line">            stream.writeObject(array[i]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(ObjectInputStream stream)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</div><div class="line">        stream.defaultReadObject();</div><div class="line">        <span class="keyword">int</span> cap = stream.readInt();</div><div class="line">        <span class="keyword">if</span> (cap &lt; size) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InvalidObjectException(</div><div class="line">                    <span class="string">"Capacity: "</span> + cap + <span class="string">" &lt; size: "</span> + size);</div><div class="line">        &#125;</div><div class="line">        array = (cap == <span class="number">0</span> ? EmptyArray.OBJECT : <span class="keyword">new</span> Object[cap]);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</div><div class="line">            array[i] = stream.readObject();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>通过源码分析，我们可以看出ArrayList是基于数组实现的，是一个动态数组，其容量能自动增长；我们可以通过下标索引直接查找到指定位置的元素，因此查找效率高，但每次插入或删除元素，就要大量地移动元素，因此插入删除元素的效率低。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;顺序存储结构之ArrayList源码分析&quot;&gt;&lt;a href=&quot;#顺序存储结构之ArrayList源码分析&quot; class=&quot;headerlink&quot; title=&quot;顺序存储结构之ArrayList源码分析&quot;&gt;&lt;/a&gt;顺序存储结构之ArrayList源码分析&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;顺序存储结构的优缺点&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;优点：查询很快&lt;br&gt;缺点：插入和删除效率慢&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;在Java中，我们常见具有代表性的顺序存储结构有很多，这里我们以ArrayList为例，进行分析，看看它内部是如何实现顺序存储结构的。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="数据结构与算法" scheme="http://joevess.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"/>
-    
-    
-      <category term="数据结构" scheme="http://joevess.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-      <category term="ArrayList" scheme="http://joevess.github.io/tags/ArrayList/"/>
-    
-  </entry>
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="JoeVess" />
+          <p class="site-author-name" itemprop="name">JoeVess</p>
+           
+              <p class="site-description motion-element" itemprop="description">形随心动 不惧 欢喜</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/joevess" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="/qq/index.html" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#链式存储结构之LinkedList源码分析"><span class="nav-number">1.</span> <span class="nav-text">链式存储结构之LinkedList源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-链式存储结构的优缺点"><span class="nav-number">1.1.</span> <span class="nav-text">1. 链式存储结构的优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-链表的分类"><span class="nav-number">1.2.</span> <span class="nav-text">2. 链表的分类</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  <entry>
-    <title>数据结构</title>
-    <link href="http://joevess.github.io/2017/08/17/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    <id>http://joevess.github.io/2017/08/17/数据结构/</id>
-    <published>2017-08-17T08:48:50.000Z</published>
-    <updated>2017-08-17T08:52:16.000Z</updated>
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JoeVess</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
     
-    <content type="html"><![CDATA[<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><blockquote>
-<p>数据之间相互存在的一种或多种特定的关系的元素的集合</p>
-</blockquote>
-<ol>
-<li>逻辑结构</li>
-</ol>
-<p><img src="http://oqv6v6nmu.bkt.clouddn.com/2017-08-17-P%29%28%25S5%7DWL7HD%2809E1_%7BQAA0.png" alt=""><br><img src="http://oqv6v6nmu.bkt.clouddn.com/2017-08-17-73I2ZJ-3Z5XWL3W1LFVZRCR.png" alt=""><br><img src="http://oqv6v6nmu.bkt.clouddn.com/2017-08-17-2X1{SH5V_HSM`5JS[H]Z`JP.png" alt=""><br><img src="http://oqv6v6nmu.bkt.clouddn.com/2017-08-17-34MMEH64LMCA}H5G_RXKPGO.png" alt=""></p>
-<a id="more"></a>
-]]></content>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
     
-    <summary type="html">
-    
-      &lt;h2 id=&quot;数据结构&quot;&gt;&lt;a href=&quot;#数据结构&quot; class=&quot;headerlink&quot; title=&quot;数据结构&quot;&gt;&lt;/a&gt;数据结构&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;数据之间相互存在的一种或多种特定的关系的元素的集合&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ol&gt;
-&lt;li&gt;逻辑结构&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;img src=&quot;http://oqv6v6nmu.bkt.clouddn.com/2017-08-17-P%29%28%25S5%7DWL7HD%2809E1_%7BQAA0.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;&lt;img src=&quot;http://oqv6v6nmu.bkt.clouddn.com/2017-08-17-73I2ZJ-3Z5XWL3W1LFVZRCR.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;&lt;img src=&quot;http://oqv6v6nmu.bkt.clouddn.com/2017-08-17-2X1{SH5V_HSM`5JS[H]Z`JP.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;&lt;img src=&quot;http://oqv6v6nmu.bkt.clouddn.com/2017-08-17-34MMEH64LMCA}H5G_RXKPGO.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="技术" scheme="http://joevess.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="数据结构" scheme="http://joevess.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-  </entry>
+
+  </div>
+
   
-  <entry>
-    <title>博客搭建</title>
-    <link href="http://joevess.github.io/2017/08/17/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
-    <id>http://joevess.github.io/2017/08/17/博客搭建/</id>
-    <published>2017-08-17T05:07:26.000Z</published>
-    <updated>2017-08-17T09:20:04.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>使用Hexo在GitHub上搭建个人博客<br><a id="more"></a><br>-</p>
-<h4 id="使用GitHub帐号创建仓库"><a href="#使用GitHub帐号创建仓库" class="headerlink" title="使用GitHub帐号创建仓库"></a>使用GitHub帐号创建仓库</h4><p><img src="http://oqv6v6nmu.bkt.clouddn.com/CD70DF0A-231A-42DE-A36B-6D787E125727.png" width="600" height=""></p>
-<h4 id="生成秘钥，添加到Github中"><a href="#生成秘钥，添加到Github中" class="headerlink" title="生成秘钥，添加到Github中"></a>生成秘钥，添加到Github中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C &quot;simple_sunc@163.com&quot;</div></pre></td></tr></table></figure>
-<p>一路Enter过来就好，待秘钥生成完毕，会得到两个文件<code>id_rsa</code>和<code>id_rsa.pub</code>，用带格式的记事本打开<code>id_rsa.pub</code>(或直接使用命令’cat xxx/id_rsa.pub文件’),<code>Ctrl + A</code>复制里面的所有内容，然后进入<a href="https://github.com/settings/ssh" target="_blank" rel="external">https://github.com/settings/ssh</a><br>将复制的内容粘贴到Key的输入框，随便写好<code>Title</code>里面的内容，点击<code>Add SSH key</code>按钮即可。<br><img src="http://oqv6v6nmu.bkt.clouddn.com/FBEB11A1-A1C0-44C9-A15F-4F5A3D897703.png" width="600" height=""></p>
-<h4 id="安装Node-js-官网"><a href="#安装Node-js-官网" class="headerlink" title="安装Node.js 官网"></a>安装Node.js <a href="https://nodejs.org/zh-cn/" target="_blank" rel="external">官网</a></h4><p><img src="http://oqv6v6nmu.bkt.clouddn.com/9F17FB8B-EC36-448D-8255-85D0EF716474.png" width="600" height=""></p>
-<p>目前Node.js有两个推荐版本，分为通用版和最新版，点击可直接进行下载。下载好后，按照既定的套路安装即可。这里我使用的为通用版。</p>
-<h4 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h4><p>这块就不再细说了，可以参考<a href="https://git-scm.com/" target="_blank" rel="external">Git官网</a></p>
-<h4 id="安装配置Hexo"><a href="#安装配置Hexo" class="headerlink" title="安装配置Hexo"></a>安装配置Hexo</h4><p>可选择进入<a href="https://hexo.io/zh-cn/" target="_blank" rel="external">官网</a>自行查看</p>
-<ul>
-<li><p>我们需要将创建的仓库内容Clone到本地，这里我们使用终端命令<br>： <code>cd xxx/xxx</code> 切换到仓库代码将保存到的文件夹目录。<br>使用<code>git clone -b master git@github.com:joevess/joevess.io.git</code> 克隆仓库到代码到本地。</p>
-<p>  <img src="http://oqv6v6nmu.bkt.clouddn.com/2D634262-28ED-432E-B1C6-92CDB132270B.png" width="600"></p>
-</li>
-<li><p>使用终端命令： <code>cd xxx/xxx</code> 切换到仓库代码根目录</p>
-</li>
-<li><p>下载安装Hexo<br><code>npm install -g hero-cli</code></p>
-<p>  <img src="http://oqv6v6nmu.bkt.clouddn.com/1195956D-764F-4365-A3E6-46B049945320.png" width="400"></p>
-</li>
-<li>安装好Hexo之后，在终端输入：<code>hexo</code> ，若出现下图，则说明安装成功：<br>  <img src="http://oqv6v6nmu.bkt.clouddn.com/F65DD29D-B66B-4C4A-839C-B058E4D4B39F.png" width="600"> </li>
-</ul>
-<h4 id="安装配置Hexo-1"><a href="#安装配置Hexo-1" class="headerlink" title="安装配置Hexo"></a>安装配置Hexo</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 初始化博客  &lt;folder&gt;为代码根目录</div><div class="line">$ hexo init &lt;folder&gt; </div><div class="line">// 进入博客文件夹</div><div class="line">$ cd &lt;folder&gt; </div><div class="line">// node.js的命令，根据博客既定的dependencies配置安装所有的依赖包 </div><div class="line">$ npm install</div></pre></td></tr></table></figure>
-<h4 id="配置博客"><a href="#配置博客" class="headerlink" title="配置博客"></a>配置博客</h4><p>在 Hexo 中有两份主要的配置文件，其名称都是<code>_config.yml</code>。 其中，一份位于站点根目录下，主要包含 Hexo 本身的配置；另一份位于主题目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。</p>
-<p>下面为我的站点根目录下<code>_config.yml</code>配置:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"># Hexo Configuration</div><div class="line">## Docs: https://hexo.io/docs/configuration.html</div><div class="line">## Source: https://github.com/hexojs/hexo/</div><div class="line"></div><div class="line"># Site</div><div class="line">title: JoeVess&apos;s Blog</div><div class="line">subtitle: the stack of it nerds</div><div class="line">description: start from zero</div><div class="line">author: JoeVess</div><div class="line">language: zh-Hans</div><div class="line">timezone: Asia/Shanghai</div><div class="line"></div><div class="line"># URL</div><div class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</div><div class="line">url: http://joevess.github.io</div><div class="line">root: /</div><div class="line">permalink: :year/:month/:day/:title/</div><div class="line">permalink_defaults:</div><div class="line"></div><div class="line"># Directory</div><div class="line">source_dir: source</div><div class="line">public_dir: public</div><div class="line">tag_dir: tags</div><div class="line">archive_dir: archives</div><div class="line">category_dir: categories</div><div class="line">code_dir: downloads/code</div><div class="line">i18n_dir: :lang</div><div class="line">skip_render:</div><div class="line"></div><div class="line"># Writing</div><div class="line">new_post_name: :title.md # File name of new posts</div><div class="line">default_layout: post</div><div class="line">titlecase: false # Transform title into titlecase</div><div class="line">external_link: true # Open external links in new tab</div><div class="line">filename_case: 0</div><div class="line">render_drafts: false</div><div class="line">post_asset_folder: false</div><div class="line">relative_link: false</div><div class="line">future: true</div><div class="line">highlight:</div><div class="line">  enable: true</div><div class="line">  line_number: true</div><div class="line">  auto_detect: false</div><div class="line">  tab_replace:</div><div class="line"></div><div class="line"># Category &amp; Tag</div><div class="line">default_category: uncategorized</div><div class="line">category_map:</div><div class="line">tag_map:</div><div class="line"></div><div class="line"># Date / Time format</div><div class="line">## Hexo uses Moment.js to parse and display date</div><div class="line">## You can customize the date format as defined in</div><div class="line">## http://momentjs.com/docs/#/displaying/format/</div><div class="line">date_format: YYYY-MM-DD</div><div class="line">time_format: HH:mm:ss</div><div class="line"></div><div class="line"># Pagination</div><div class="line">## Set per_page to 0 to disable pagination</div><div class="line">per_page: 10</div><div class="line">pagination_dir: page</div><div class="line"></div><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: next</div><div class="line"># theme: notes</div><div class="line"></div><div class="line">search:</div><div class="line">  path: search.xml</div><div class="line">  field: post</div><div class="line">  format: html</div><div class="line">  limit: 10000</div><div class="line"></div><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repo: https://github.com/joevess/joevess.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
-<p>这里我使用的主题为Next,其详细配置可参考<a href="http://theme-next.iissnan.com/" target="_blank" rel="external">Next的官网</a>（很详细）</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h4&gt;&lt;p&gt;使用Hexo在GitHub上搭建个人博客&lt;br&gt;
-    
-    </summary>
-    
-      <category term="记录" scheme="http://joevess.github.io/categories/%E8%AE%B0%E5%BD%95/"/>
-    
-    
-      <category term="Hexo" scheme="http://joevess.github.io/tags/Hexo/"/>
-    
-      <category term="GitHub" scheme="http://joevess.github.io/tags/GitHub/"/>
-    
-  </entry>
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
   
-</feed>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "3dcc9ae03de84713918b8d0fba7575de",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (search_path.endsWith("json")) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("vC4R8UmvKqNQdABzhu3b099f-gzGzoHsz", "642v68YoeWzd2NV3RVwCG5K5");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
